@@ -1,0 +1,71 @@
+
+------------------------------Static Data----------------------------------
+select * from status
+
+select * from color_list
+
+select * from project_database_type
+
+select * from project_access_role
+
+select * from table_field_data_type
+
+select * from table_field_key_type
+
+---------------------------User Entered Data-------------------------------
+
+select * from change_log
+
+select * from public.user
+
+select * from user_data
+
+select * from user_access_token
+
+select * from organization
+
+select * from organization_data
+
+select * from user_organization
+
+select * from user_organization_data
+
+select * from user_organization_invitation
+
+select * from user_selected_organization
+
+select * from project
+
+select * from project_data
+
+select * from project_user_role
+
+select * from public.table
+
+select * from table_data
+
+select * from table_group
+
+select * from table_group_data
+
+select * from table_group_assignment
+
+select * from table_group_assignment_data
+
+select * from table_field
+
+select * from table_field_data
+
+select * from table_field_other_data
+
+select * from table_field_key_assignment
+
+select * from table_field_key_assignment_data
+
+select * from unique_key_assignment
+
+select * from unique_key_assignment_data
+
+select * from unique_key_assignment_other_data
+
+select * from user_socket_info

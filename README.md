@@ -1,2 +1,1 @@
-# db-designer-api
-Database Designer
+# db-creator-api

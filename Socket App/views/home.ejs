@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Chat Application</title>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+    </head>
+    <body>
+        <h1 style="text-align: center"><%= username %>'s Chat Dashboard</h1>
+        <form action="/logout" method="POST">
+            <input type="text" name="userid" id="userid" value="<%= userInfoId %>" hidden />
+            <input type="text" name="username" id="username" value="<%= username %>" hidden />
+            <input type="text" name="usersocketid" id="usersocketid" hidden />
+            <button type="submit" style="border: 0"><h3>Logout</h3></button>
+        </form>
+
+        <br /><br /><br />
+
+        <div id="send-message-container" style="text-align: center">
+            <form id="form" style="text-align: left">
+                <label for="reciever">Chat With: </label>
+                <select name="reciever" id="reciever">
+                    <option value="No Value" selected disabled>Choose</option>
+                </select>
+
+                <br /><br /><br />
+
+                <label for="myfile">Enter your message: </label>
+                <input type="text" id="input" /><br /><br />
+
+                <label for="myfile">Select a file: </label>
+                <input type="file" id="myfile" name="myfile" /><br /><br />
+
+                <button type="button" id="send-button">Send</button>
+            </form>
+        </div>
+
+        <div id="message-recieve-container">
+            <p id="typingmessages"></p>
+            <p id="messages"></p>
+        </div>
+    </body>
+    <script>
+        $(document).ready(function () {
+            var socket = io()
+
+            var select = $("#reciever")
+            var userId = $("#userid").val()
+            var username = $("#username").val()
+
+            // Connnect Socket And Generate Socket Id
+            socket.emit("firstcall", userId)
+
+            // Get User Data
+            socket.on("user data", (obj) => {
+                var socketId = obj.userId
+                var userData = obj.data
+
+                if (userData.length > 0) {
+                    var html = `<option value='Choose' selected disabled>Select User To Chat</option>`
+                    for (i = 0; i < userData.length; i++) {
+                        if (username != userData[i].username) {
+                            if (i == userData.length - 1) {
+                                html += `<option value='${socketId}'>${userData[i].username}</option>`
+                            } else {
+                                html += `<option value='${userData[i].socket_id}'>${userData[i].username}</option>`
+                            }
+                        }
+                    }
+                    select.html(html)
+                } else {
+                    select.html(`<option value='null'>No User Found</option>`)
+                }
+            })
+
+            var sendButton = $("#send-button")
+            var input = $("#input")
+
+            sendButton.click((event) => {
+                event.preventDefault()
+                var sendMsgData = {}
+                if (select.val() == null) {
+                    sendMsgData = {
+                        msgType: "PUBLIC",
+                        fromUserId: $("#userid").val(),
+                        message: input.val()
+                    }
+                } else {
+                    sendMsgData = {
+                        msgType: "PRIVATE",
+                        fromUserId: $("#userid").val(),
+                        toSocketId: select.val(),
+                        message: input.val()
+                    }
+                }
+
+                socket.emit("chat message", sendMsgData)
+                select.val(null)
+                input.val("")
+            })
+
+            socket.on("chat message", (Msg) => {
+                var sender = Msg.from
+                var message = Msg.message
+
+                $("#messages").append(`<p>${sender}: ${message}</p>`)
+            })
+        })
+    </script>
+</html>

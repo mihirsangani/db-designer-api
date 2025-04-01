@@ -1,0 +1,55 @@
+delete from user_socket_info
+
+delete from unique_key_assignment_other_data
+
+delete from unique_key_assignment_data
+
+delete from unique_key_assignment
+
+delete from table_field_key_assignment_data
+
+delete from table_field_key_assignment
+
+delete from table_field_other_data
+
+delete from table_field_data
+
+delete from table_field
+
+delete from table_group_assignment_data
+
+delete from table_group_assignment
+
+delete from table_group_data
+
+delete from table_group
+
+delete from table_data
+
+delete from public.table
+
+delete from project_user_role
+
+delete from project_data
+
+delete from project
+
+delete from user_organization_data
+
+delete from user_organization
+
+delete from organization_data
+
+delete from user_selected_organization
+
+delete from user_organization_invitation
+
+delete from organization
+
+delete from user_data
+
+delete from user_access_token
+
+delete from public.user
+
+delete from change_log
